@@ -1,10 +1,10 @@
-package controlers;
+package com.red.webapp.controlers;
 
+import com.red.persistence.data.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import temp.User;
 
 import java.util.HashSet;
 import java.util.Set;
