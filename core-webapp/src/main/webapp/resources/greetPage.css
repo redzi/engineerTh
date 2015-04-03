@@ -1,0 +1,45 @@
+header
+{
+    background-color: darkkhaki;
+    color: white;
+    text-align: center;
+    padding: 5px;
+}
+
+nav
+{
+    line-height: 30px;
+    background-color: whitesmoke;
+    height: 300px;
+    width: 100px;
+    padding: 5px;
+}
+
+nav.index
+{
+    float: left;
+}
+
+nav.login
+{
+    width: 70px;
+    text-align: right;
+    float: right;
+}
+
+section
+{
+    width: 350px;
+    float: left;
+    padding: 10px;
+    background-color: ghostwhite;
+}
+
+footer
+{
+    background-color: darkkhaki;
+    color: white;
+    clear: both;
+    text-align: center;
+    padding: 5px;
+}
