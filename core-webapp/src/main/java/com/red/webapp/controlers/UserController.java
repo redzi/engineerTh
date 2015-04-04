@@ -1,6 +1,6 @@
 package com.red.webapp.controlers;
 
-import com.red.persistence.data.User;
+import com.red.persistence.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

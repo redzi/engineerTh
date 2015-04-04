@@ -1,8 +1,5 @@
-package com.red.persistence.data;
+package com.red.persistence.model;
 
-/**
- * Created by tom on 2015-03-29.
- */
 public class User
 {
     private String firstname;
