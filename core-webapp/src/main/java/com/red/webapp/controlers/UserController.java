@@ -1,41 +1,41 @@
 package com.red.webapp.controlers;
 
-import com.red.persistence.model.User;
+import com.red.persistence.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value="/list")
 public class UserController
 {
-    private Set<User> userSet;
+    @Autowired
+    private TestService testService;
 
     public UserController()
     {
-        userSet = new HashSet<>();
-        System.out.println("controller is being initialized");
-        userSet.add(new User("Tomek", "Kuku"));
-        userSet.add(new User("Kasia", "Cicha"));
-        userSet.add(new User("Bobek", "Kot"));
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String listGet(Model model)
     {
-        model.addAttribute("users", userSet);
+        model.addAttribute("tests", testService.loadAllTest());
         return ("login/index");
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String listPost(Model model, User user)
+    public String listPost(Model model, @RequestParam String word)
     {
-        userSet.add(user);
-        model.addAttribute("users", userSet);
-        return ("login/index");
+        testService.saveTest(word);
+        model.addAttribute("tests", testService.loadAllTest());
+        return ("redirect:list");
+    }
+
+    public void setTestService(TestService testService)
+    {
+        this.testService = testService;
     }
 }

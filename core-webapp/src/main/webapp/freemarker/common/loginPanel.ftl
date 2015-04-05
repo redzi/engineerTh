@@ -1,16 +1,42 @@
 <#macro loginPanel>
 <link type="text/css" href="/resources/main.css" rel="stylesheet" />
 <div class="loginForm">
-    <form class="userform" name="newuser" action="login" method="post">
+    <form class="userform" name="newuser" action="/list" method="post">
         <div class="textHolder">
-            Firstname: <input type="text" name="firstname"> <br>
-            Lastname: <input type="text" name="lastname"> <br>
-            E-mail: <input type="text" name="email"> <br>
-            Password: <input type="password" name="password"> <br>
-        </div>
-        <div class="buttonHolder">
-            <input value="Save" type="submit">
-            <input value="Reset" type="reset">
+            <table class="formHolder">
+                <tr>
+                    <td>
+                        Name:
+                    </td>
+                    <td>
+                        <input type="text" name="word">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        E-mail:
+                    </td>
+                    <td>
+                        <input type="text" name="email">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Password:
+                    </td>
+                    <td>
+                        <input type="password" name="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input value="Save" type="submit">
+                    </td>
+                    <td>
+                        <input value="Reset" type="reset">
+                    </td>
+                </tr>
+            </table>
         </div>
     </form>
 </div>

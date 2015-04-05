@@ -1,39 +1,58 @@
 package com.red.persistence.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User
 {
-    private String firstname;
-    private String lastname;
+    private Long id;
+    private String name;
+    private String password;
     private boolean admin = false;
+    private Email email;
+    private List<UserRole> userRole = new ArrayList<UserRole>();
 
     public User()
     {
     }
 
-    public User(String firstname, String lastname)
+    public User(String name, String password, boolean admin, Email email, List<UserRole> userRole)
     {
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.name = name;
+        this.password = password;
+        this.admin = admin;
+        this.email = email;
+        this.userRole = userRole;
     }
 
-    public void setFirstname(String firstname)
+    public Long getId()
     {
-        this.firstname = firstname;
+        return id;
     }
 
-    public void setLastname(String lastname)
+    public void setId(Long id)
     {
-        this.lastname = lastname;
+        this.id = id;
     }
 
-    public String getFirstname()
+    public String getName()
     {
-        return firstname;
+        return name;
     }
 
-    public String getLastname()
+    public void setName(String name)
     {
-        return lastname;
+        this.name = name;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     public boolean isAdmin()
@@ -44,6 +63,26 @@ public class User
     public void setAdmin(boolean admin)
     {
         this.admin = admin;
+    }
+
+    public Email getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(Email email)
+    {
+        this.email = email;
+    }
+
+    public List<UserRole> getUserRole()
+    {
+        return userRole;
+    }
+
+    public void setUserRole(List<UserRole> userRole)
+    {
+        this.userRole = userRole;
     }
 }
 

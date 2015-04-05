@@ -7,6 +7,7 @@
 <#import "../common/footer.ftl" as footer>
 <#import "../common/loginPanel.ftl" as loginPanel>
 <#import "../common/indexPanel.ftl" as indexPanel>
+<#import "../common/displayUsers.ftl" as displayUsers>
 
     <div class="all">
         <header>
@@ -20,6 +21,9 @@
         </nav>
         <section>
         <@loginPanel.loginPanel/>
+        </section>
+        <section>
+        <@displayUsers.displayUsers/>
         </section>
 
         <footer>
