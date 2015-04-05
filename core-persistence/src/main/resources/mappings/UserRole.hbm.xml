@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.red.persistence.model">
+    <class name="UserRole" table="USER_ROLES">
+        <id name="id" column="USER_ROLE_ID">
+            <generator class="native"/>
+        </id>
+        <property name="role" type="string" not-null="true" length="10"/>
+
+        <many-to-one name="user" class="com.red.persistence.model.User" fetch="select">
+            <column name="USER_ID" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

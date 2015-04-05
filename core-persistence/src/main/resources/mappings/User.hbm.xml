@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.red.persistence.model">
+    <class name="User" table="USERS">
+        <id name="id" column="USER_ID">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="USERNAME" type="string" length="25" not-null="true" unique="true"/>
+        <property name="password" column="PASSWORD" type="string" length="65" not-null="true"/>
+        <property name="admin" column="IS_ADMIN" not-null="true"/>
+        <one-to-one name="email" class="com.red.persistence.model.Email" cascade="save-update"/>
+        <set name="userRole" table="USER_ROLES"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="USER_ROLE_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.red.persistence.model.UserRole" />
+        </set>
+    </class>
+</hibernate-mapping>

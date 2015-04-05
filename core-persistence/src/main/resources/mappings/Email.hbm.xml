@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.red.persistence.model">
+    <class name="Email" table="EMAILS">
+        <id name="id" column="EMAIL_ID">
+            <generator class="native"/>
+        </id>
+        <property name="address" column="ADDRESS" type="string" length="50" not-null="true" />
+        <one-to-one name="User" class="com.red.persistence.model.User" constrained="true"/>
+    </class>
+</hibernate-mapping>
