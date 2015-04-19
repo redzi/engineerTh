@@ -43,4 +43,26 @@ public class Email
     {
         this.address = address;
     }
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Email email = (Email) o;
+
+        if (address != null ? !address.equals(email.address) : email.address != null) return false;
+        if (user != null ? !user.equals(email.user) : email.user != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = address != null ? address.hashCode() : 0;
+        return result;
+    }
 }

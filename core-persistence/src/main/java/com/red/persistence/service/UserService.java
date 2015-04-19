@@ -1,7 +1,6 @@
 package com.red.persistence.service;
 
 import com.red.persistence.dao.UserDao;
-import com.red.persistence.model.Email;
 import com.red.persistence.model.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,42 +8,59 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UserService implements UserDetailsService
 {
     private UserDao userDao;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
     {
         com.red.persistence.model.User user = userDao.findByUserName(username);
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+        if(user != null)
+        {
+            List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
-        return buildUserForAuthentication(user, authorities);
+            return buildUserForAuthentication(user, authorities);
+        }
+        else
+        {
+            throw new UsernameNotFoundException("User "+username+" not found");
+        }
     }
 
     private User buildUserForAuthentication(com.red.persistence.model.User user, List<GrantedAuthority> authorities)
     {
-        return new User(user.getName(), user.getPassword(), user.isAdmin(), true, true, true, authorities);
+        return new User(user.getName(), user.getPassword(), true, true, true, true, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(List<UserRole> userRoles)
+    private List<GrantedAuthority> buildUserAuthority(UserRole userRole)
     {
-        Set<GrantedAuthority> setAuths = new HashSet<>();
+        List<String> roles = new ArrayList<>();
 
-        for (UserRole userRole : userRoles)
+        if (userRole.getRole().equals(1))
         {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+            roles.add(SecurityRole.ROLE_USER.getRoleStr());
+            roles.add(SecurityRole.ROLE_ADMIN.getRoleStr());
+
+        }
+        else if (userRole.getRole().equals(2))
+        {
+            roles.add(SecurityRole.ROLE_USER.getRoleStr());
         }
 
-        List<GrantedAuthority> result = new ArrayList<>(setAuths);
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        return result;
+        for (String role : roles)
+        {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
     }
 
     public com.red.persistence.model.User loadUserByName(String name)
@@ -62,9 +78,37 @@ public class UserService implements UserDetailsService
         userDao.saveUser(user);
     }
 
-    public void saveUserByData(String name, String password, boolean admin, Email email, List<UserRole> userRoleList)
+    public com.red.persistence.model.User saveUserRole(String name, String password, String email)
     {
-        userDao.saveUserByData(name, password, admin, email, userRoleList);
+        if(!checkIfUserExists(name))
+        {
+            return null;
+        }
+        String hashedPassword = passwordEncoder.encode(password);
+        return userDao.saveUserByData(name, hashedPassword, email, SecurityRole.ROLE_USER.getRoleInt());
+    }
+
+    public com.red.persistence.model.User saveUserAdminRole(String name, String password, String email)
+    {
+        if(!checkIfUserExists(name))
+        {
+            return null;
+        }
+        String hashedPassword = passwordEncoder.encode(password);
+        return userDao.saveUserByData(name, hashedPassword, email, SecurityRole.ROLE_ADMIN.getRoleInt());
+    }
+
+    private boolean checkIfUserExists(final String userName)
+    {
+        com.red.persistence.model.User user = userDao.findByUserName(userName);
+        if(user != null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void setUserDao(UserDao userDao)
@@ -72,4 +116,8 @@ public class UserService implements UserDetailsService
         this.userDao = userDao;
     }
 
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder)
+    {
+        this.passwordEncoder = passwordEncoder;
+    }
 }

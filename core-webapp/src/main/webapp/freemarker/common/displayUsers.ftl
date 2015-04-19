@@ -9,15 +9,21 @@
           <th>
               user name
           </th>
+          <th>
+              user mail
+          </th>
       </tr>
-      <#list tests as test>
+      <#list users as user>
       <tr>
           <td>
               ${inc}
           </td>
           <#assign inc = inc +1>
           <td>
-              ${test.word}
+              ${user.name}
+          </td>
+          <td>
+              ${user.email.address}
           </td>
       </tr>
       </#list>

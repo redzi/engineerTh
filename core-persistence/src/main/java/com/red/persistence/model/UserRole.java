@@ -5,12 +5,12 @@ public class UserRole
 {
     private Long id;
     private User user;
-    private String role;
+    private Integer role;
 
     public UserRole()
     {}
 
-    public UserRole(Integer userRoleId, User user, String role)
+    public UserRole(User user, Integer role)
     {
         this.user = user;
         this.role = role;
@@ -26,14 +26,14 @@ public class UserRole
         this.id = id;
     }
 
-    public void setRole(String role)
-    {
-        this.role = role;
-    }
-
-    public String getRole()
+    public Integer getRole()
     {
         return role;
+    }
+
+    public void setRole(Integer role)
+    {
+        this.role = role;
     }
 
     public User getUser()

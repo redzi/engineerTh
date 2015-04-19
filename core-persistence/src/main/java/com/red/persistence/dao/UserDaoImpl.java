@@ -36,15 +36,39 @@ public class UserDaoImpl implements UserDao
     @Transactional
     public void saveUser(User user)
     {
-        getSession().saveOrUpdate(user);
+        getSession().save(user);
     }
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public void saveUserByData(String name, String password, boolean admin, Email email, List<UserRole> userRoleList)
+    public void saveOrUpdateUser(User user)
     {
-        User user = new User(name, password, admin, email, userRoleList);
         getSession().saveOrUpdate(user);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public User saveUserByData(String name, String password, String emailAddress, Integer userRoleVal)
+    {
+        User user = new User();
+        Email email = new Email();
+        UserRole userRole = new UserRole();
+
+        email.setAddress(emailAddress);
+        email.setUser(user);
+
+        userRole.setRole(userRoleVal);
+        userRole.setUser(user);
+
+        user.setEmail(email);
+        user.setUserRole(userRole);
+        user.setName(name);
+        user.setPassword(password);
+
+        getSession().saveOrUpdate(user);
+
+        return user;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory)

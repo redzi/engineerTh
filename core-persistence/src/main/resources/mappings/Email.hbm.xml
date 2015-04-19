@@ -6,7 +6,9 @@
 <hibernate-mapping package="com.red.persistence.model">
     <class name="Email" table="EMAILS">
         <id name="id" column="EMAIL_ID">
-            <generator class="native"/>
+            <generator class="foreign">
+                <param name="property">User</param>
+            </generator>
         </id>
         <property name="address" column="ADDRESS" type="string" length="50" not-null="true" />
         <one-to-one name="User" class="com.red.persistence.model.User" constrained="true"/>

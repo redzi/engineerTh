@@ -5,12 +5,11 @@
 <hibernate-mapping package="com.red.persistence.model">
     <class name="UserRole" table="USER_ROLES">
         <id name="id" column="USER_ROLE_ID">
-            <generator class="native"/>
+            <generator class="foreign">
+                <param name="property">User</param>
+            </generator>
         </id>
-        <property name="role" type="string" not-null="true" length="10"/>
-
-        <many-to-one name="user" class="com.red.persistence.model.User" fetch="select">
-            <column name="USER_ID" not-null="true"/>
-        </many-to-one>
+        <property name="role" type="integer" not-null="true"/>
+        <one-to-one name="User" class="com.red.persistence.model.User" constrained="true"/>
     </class>
 </hibernate-mapping>
