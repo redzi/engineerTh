@@ -2,6 +2,7 @@
 <title>play on ftl</title>
 <link type="text/css" href="/resources/greetPage.css" rel="stylesheet" />
 <head>
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#import "../common/header.ftl" as header>
 <#import "../common/footer.ftl" as footer>
 
@@ -9,6 +10,10 @@
         <header>
             <@header.header/>
         </header>
+        <@security.authorize access="hasRole('ROLE_USER')">
+        ${user}
+        </@security.authorize>
+
         <nav class="index">
             1<br>
             2<br>

@@ -3,6 +3,10 @@ package com.red.webapp.controlers;
 import com.red.persistence.model.User;
 import com.red.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,8 @@ public class UserController
 {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public UserController()
     {}
@@ -37,17 +43,28 @@ public class UserController
         if(result.hasErrors())
         {
             model.addAttribute("message", "some errors with user");
-            return "login/registrationPage";
+            return "redirect:login/registrationPage";
         }
         User registered = userService.saveUserRole(newUser.getName(), newUser.getPassword(), newUser.getEmail().getAddress());
 
         if (registered == null)
         {
-            result.rejectValue("user", "User is not valid");
-            return "login/registrationPage";
+            result.rejectValue("name", "err_qna_not_blank", "Username is already taken");
+            return "redirect:login/registrationPage";
         }
+        model.addAttribute("user", newUser.getName());
 
-        return "/";
+        // perform login authentication
+        UserDetails userDetails = userService.loadUserByUsername(newUser.getName());
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken (userDetails, newUser.getPassword(), userDetails.getAuthorities());
+        authenticationManager.authenticate(auth);
+        if(auth.isAuthenticated())
+        {
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return "redirect:../";
+        }
+        return "redirect:login/loginPage";
+
     }
 
     @RequestMapping(value="authentication/login", method = RequestMethod.GET)
@@ -60,12 +77,9 @@ public class UserController
     public String logoutGet(Model model, Principal principal)
     {
         String userName = principal.getName();
+        model.addAttribute("user", userName);
         model.addAttribute("message", "Hi " + userName + ", would you like to log out?'");
         return ("login/logoutPage");
     }
 
-    public void setTestService(UserService userService)
-    {
-        this.userService = userService;
-    }
 }

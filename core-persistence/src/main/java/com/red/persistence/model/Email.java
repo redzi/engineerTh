@@ -65,4 +65,10 @@ public class Email
         int result = address != null ? address.hashCode() : 0;
         return result;
     }
+
+    @Override
+    public String toString()
+    {
+        return address;
+    }
 }

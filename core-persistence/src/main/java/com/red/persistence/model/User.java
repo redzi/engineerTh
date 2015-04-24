@@ -3,7 +3,6 @@ package com.red.persistence.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class User
@@ -18,8 +17,9 @@ public class User
     @Size(min = 6, message = "Your password must at least 6 characters long")
     private String password;
 
-    @NotNull
+    @com.red.persistence.validation.Email
     private Email email;
+
     private UserRole userRole;
 
     public User()
