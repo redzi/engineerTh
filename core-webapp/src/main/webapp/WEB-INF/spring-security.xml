@@ -34,12 +34,12 @@
         <!--<logout invalidate-session="true"-->
                 <!--logout-success-url="/logout/success"-->
                 <!--logout-url="/logout"/>-->
-        <form-login login-page="/authentication/login"  default-target-url="/"
+        <form-login login-page="/authentication/login"  default-target-url="/" password-parameter="password" username-parameter="username"
                     authentication-failure-url="/authentication/login?error=true"
                     always-use-default-target="true"/>
         <logout logout-url="/j_spring_security_logout" logout-success-url="/" delete-cookies="JSESSIONID" />
         <remember-me
-                user-service-ref="userService"
+                user-service-ref="userSecurityService"
                 token-validity-seconds="1209600"
                 remember-me-parameter="remember-me"
                 data-source-ref="dataSource" />
@@ -68,7 +68,7 @@
     </beans:bean>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="userService">
+        <authentication-provider user-service-ref="userSecurityService">
             <password-encoder ref="encoder"/>
         </authentication-provider>
     </authentication-manager>
@@ -78,7 +78,7 @@
     <beans:bean id="rememberMeAuthenticationProvider" class=
             "org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
                 <beans:constructor-arg value="myAppKey" />
-                <beans:constructor-arg ref="userService" />
+                <beans:constructor-arg ref="userSecurityService" />
                 <beans:constructor-arg ref="jdbcTokenRepository" />
     </beans:bean>
 

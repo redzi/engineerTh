@@ -20,8 +20,9 @@ nav.index
     float: left;
 }
 
-nav.login
+aside.credentials
 {
+    background-color: whitesmoke;
     width: 70px;
     text-align: right;
     float: right;

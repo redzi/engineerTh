@@ -22,6 +22,7 @@
         <servlet-api.version>2.5</servlet-api.version>
         <commons-dbcp.version>2.1</commons-dbcp.version>
         <oracle-ojdbc.version>11.2.0.3</oracle-ojdbc.version>
+        <google-guava.version>18.0</google-guava.version>
     </properties>
 
     <dependencies>

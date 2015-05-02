@@ -10,18 +10,20 @@
         <header>
             <@header.header/>
         </header>
-        <@security.authorize access="hasRole('ROLE_USER')">
-        ${user}
-        </@security.authorize>
-
         <nav class="index">
             1<br>
             2<br>
             3<br>
         </nav>
-        <nav class="login">
-            Log in<br>
-        </nav>
+        <aside class="credentials">
+            <@security.authorize access="isAnonymous()">
+                <a href="/authentication/login">Log in</a>
+            </@security.authorize>
+            <@security.authorize access="isAuthenticated()">
+                <a href="/authentication/logout">Log out</a>
+            </@security.authorize>
+        </aside>
+
         <section>
             <h2>test</h2>
         </section>

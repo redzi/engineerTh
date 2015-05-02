@@ -32,6 +32,11 @@
                     </td>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        <a href="/authentication/registration">Registration</a>
+                    </td>
+                </tr>
             </table>
         </div>
     </form>

@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
-    public User findByUserName(String username)
+    public User loadByUserName(String username)
     {
         Criteria criteria = getSession().createCriteria(User.class);
         criteria.add(Restrictions.eq("name", username));
@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
-    public List<User> findAllUsers()
+    public List<User> loadAllUsers()
     {
         Criteria criteria = getSession().createCriteria(User.class);
         return criteria.list();

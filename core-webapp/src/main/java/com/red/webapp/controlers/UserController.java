@@ -1,5 +1,6 @@
 package com.red.webapp.controlers;
 
+import com.red.persistence.exception.UsernameAlreadyExistException;
 import com.red.persistence.model.User;
 import com.red.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserController
     {}
 
     @RequestMapping(value="authentication/registration", method = RequestMethod.GET)
-    public String listGet(Model model)
+    public String registrationGet(Model model)
     {
         User user = new User();
         model.addAttribute(user);
@@ -38,31 +39,30 @@ public class UserController
     }
 
     @RequestMapping(value="authentication/registration", method = RequestMethod.POST)
-    public String listPost(Model model,  @ModelAttribute(value="user") @Valid User newUser, BindingResult result, WebRequest request)
+    public String registrationPost(Model model,  @ModelAttribute(value="user") @Valid User newUser, BindingResult result, WebRequest request)
     {
         if(result.hasErrors())
         {
             model.addAttribute("message", "some errors with user");
-            return "redirect:login/registrationPage";
+            return "login/registrationPage";
         }
-        User registered = userService.saveUserRole(newUser.getName(), newUser.getPassword(), newUser.getEmail().getAddress());
-
-        if (registered == null)
+        try
+        {
+            User registered = userService.saveUserRole(newUser.getName(), newUser.getPassword(), newUser.getEmail().getAddress());
+        }
+        catch(UsernameAlreadyExistException ex)
         {
             result.rejectValue("name", "err_qna_not_blank", "Username is already taken");
-            return "redirect:login/registrationPage";
+            return "login/registrationPage";
         }
+
         model.addAttribute("user", newUser.getName());
 
-        // perform login authentication
-        UserDetails userDetails = userService.loadUserByUsername(newUser.getName());
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken (userDetails, newUser.getPassword(), userDetails.getAuthorities());
-        authenticationManager.authenticate(auth);
-        if(auth.isAuthenticated())
+        if(authenticate(newUser))
         {
-            SecurityContextHolder.getContext().setAuthentication(auth);
             return "redirect:../";
         }
+
         return "redirect:login/loginPage";
 
     }
@@ -82,4 +82,18 @@ public class UserController
         return ("login/logoutPage");
     }
 
+    //TODO refractor it out to other class
+    private boolean authenticate(User newUser)
+    {
+        // perform login authentication
+        UserDetails userDetails = userService.loadUserByUsername(newUser.getName());
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken (userDetails, newUser.getPassword(), userDetails.getAuthorities());
+        authenticationManager.authenticate(auth);
+        if(auth.isAuthenticated())
+        {
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return true;
+        }
+        return false;
+    }
 }

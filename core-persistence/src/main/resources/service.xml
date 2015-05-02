@@ -33,7 +33,12 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="userService" class="com.red.persistence.service.UserService">
+    <bean id="userService" class="com.red.persistence.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="userSecurityService" ref="userSecurityService"/>
+    </bean>
+
+    <bean id="userSecurityService" class="com.red.persistence.service.UserSecurityService">
         <property name="userDao" ref="userDao"/>
         <property name="passwordEncoder" ref="encoder"/>
     </bean>

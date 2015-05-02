@@ -8,9 +8,9 @@ import java.util.List;
 public interface UserDao
 {
 
-    User findByUserName(String username);
+    User loadByUserName(String username);
 
-    List<User> findAllUsers();
+    List<User> loadAllUsers();
 
     void saveUser(User user);
 
