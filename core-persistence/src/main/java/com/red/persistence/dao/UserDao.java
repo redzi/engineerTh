@@ -14,6 +14,8 @@ public interface UserDao
 
     void saveUser(User user);
 
+    void saveOrUpdateUser(User user);
+
     User saveUserByData(String name, String password, String emailAddress, Integer userRoleVal);
 
     void setSessionFactory(SessionFactory sessionFactory);

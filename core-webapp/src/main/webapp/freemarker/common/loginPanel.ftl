@@ -1,7 +1,7 @@
 <#macro loginPanel>
 <link type="text/css" href="/resources/main.css" rel="stylesheet" />
 <div class="loginForm">
-    <form class="userform" action="/login" method="post">
+    <form class="userform" action="" method="post">
         <div class="textHolder">
             <table class="formHolder">
                 <tr>
@@ -35,6 +35,11 @@
                 <tr>
                     <td colspan="2">
                         <a href="/authentication/registration">Registration</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <a href="/authentication/passwordReset">Forgot my password</a>
                     </td>
                 </tr>
             </table>

@@ -23,6 +23,9 @@
                     <#if Session.SPRING_SECURITY_LAST_EXCEPTION?? && Session.SPRING_SECURITY_LAST_EXCEPTION.message?has_content>
                         <br />Error Message: ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
                     </#if>
+                    <#if failure??>
+                        <br />Error Message: ${failure}<br/>
+                    </#if>
                 </div>
             <@loginPanel.loginPanel/>
             </section>

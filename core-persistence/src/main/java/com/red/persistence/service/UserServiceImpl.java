@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService
         userDao.saveUser(user);
     }
 
+    public void updateUser(com.red.persistence.model.User user)
+    {
+        userDao.saveOrUpdateUser(user);
+    }
+
     public com.red.persistence.model.User saveUserRole(String name, String password, String email)
     {
         if(!checkIfUserExists(name))
@@ -45,7 +50,7 @@ public class UserServiceImpl implements UserService
         return userDao.saveUserByData(name, hashedPassword, email, SecurityRole.ROLE_USER.getRoleInt());
     }
 
-    public com.red.persistence.model.User saveUserAdminRole(String name, String password, String email)
+    public com.red.persistence.model.User saveAdminRole(String name, String password, String email)
     {
         if(!checkIfUserExists(name))
         {

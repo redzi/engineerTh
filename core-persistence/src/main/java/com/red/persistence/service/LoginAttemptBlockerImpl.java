@@ -22,37 +22,37 @@ public class LoginAttemptBlockerImpl implements LoginAttemptBlocker
         attemptsCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).build(new CacheLoader<String, Integer>()
         {
             @Override
-            public Integer load(String username) throws Exception
+            public Integer load(String key) throws Exception
             {
                 return 0;
             }
         });
     }
 
-    public void loginSuccessful(String username)
+    public void loginSuccessful(String key)
     {
-        attemptsCache.invalidate(username);
+        attemptsCache.invalidate(key);
     }
 
-    public void loginFailed(String username)
+    public void loginFailed(String key)
     {
         Integer attemptsNo;
         try
         {
-            attemptsNo = attemptsCache.get(username);
+            attemptsNo = attemptsCache.get(key);
         }
         catch(ExecutionException ex)
         {
             attemptsNo = 0;
         }
-        attemptsCache.put(username, ++attemptsNo);
+        attemptsCache.put(key, ++attemptsNo);
     }
 
-    public boolean isBlocked(String username)
+    public boolean isBlocked(String key)
     {
         try
         {
-            return attemptsCache.get(username) > MAX_ATTEMPT;
+            return attemptsCache.get(key) > MAX_ATTEMPT;
         }
         catch(ExecutionException ex)
         {

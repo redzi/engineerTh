@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao
     @Transactional
     public void saveUser(User user)
     {
-        getSession().save(user);
+        getSession().saveOrUpdate(user);
     }
 
     @SuppressWarnings("unchecked")

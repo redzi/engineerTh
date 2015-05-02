@@ -20,9 +20,11 @@ public interface UserService
 
     void saveUser(com.red.persistence.model.User user);
 
+    void updateUser(com.red.persistence.model.User user);
+
     com.red.persistence.model.User saveUserRole(String name, String password, String email);
 
-    com.red.persistence.model.User saveUserAdminRole(String name, String password, String email);
+    com.red.persistence.model.User saveAdminRole(String name, String password, String email);
 
     void setUserDao(UserDao userDao);
 

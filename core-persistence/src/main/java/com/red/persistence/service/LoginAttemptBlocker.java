@@ -5,10 +5,10 @@ package com.red.persistence.service;
  */
 public interface LoginAttemptBlocker
 {
-    void loginSuccessful(String username);
+    void loginSuccessful(String key);
 
-    public void loginFailed(String username);
+    public void loginFailed(String key);
 
-    public boolean isBlocked(String username);
+    public boolean isBlocked(String key);
 
 }
