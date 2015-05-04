@@ -1,86 +1,86 @@
-body
-{
-    background-color: snow;
-}
-div.everything
-{
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-form.userform
-{
-    margin: 0 auto;
-    margin-bottom: 10px;
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 5px;
-    border-collapse: collapse;
-    width: 300px;
-}
+/*body*/
+/*{*/
+    /*background-color: snow;*/
+/*}*/
+/*div.everything*/
+/*{*/
+    /*position: absolute;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*text-align: center;*/
+/*}*/
+/*form.userform*/
+/*{*/
+    /*margin: 0 auto;*/
+    /*margin-bottom: 10px;*/
+    /*text-align: center;*/
+    /*border: 2px solid black;*/
+    /*border-radius: 5px;*/
+    /*border-collapse: collapse;*/
+    /*width: 300px;*/
+/*}*/
 
-.textHolder
-{
-    text-align: center;
-}
-input[type=text], input[type=password], input[type=reset], input[type=submit]
-{
-    padding: 2px;
-    margin: 10px;
-    width: 100px;
-    background-color: floralwhite;
-    border: 1px solid black;
-    border-radius: 10px;
-}
+/*.textHolder*/
+/*{*/
+    /*text-align: center;*/
+/*}*/
+/*input[type=text], input[type=password], input[type=reset], input[type=submit]*/
+/*{*/
+    /*padding: 2px;*/
+    /*margin: 10px;*/
+    /*width: 100px;*/
+    /*background-color: floralwhite;*/
+    /*border: 1px solid black;*/
+    /*border-radius: 10px;*/
+/*}*/
 
-input[type=reset], input[type=submit]
-{
-    padding: 2px;
-    margin: 10px;
-    width: 100px;
-    color: floralwhite;
-    background-color: black;
-    border: 1px solid black;
-    border-radius: 10px;
-}
+/*input[type=reset], input[type=submit]*/
+/*{*/
+    /*padding: 2px;*/
+    /*margin: 10px;*/
+    /*width: 100px;*/
+    /*color: floralwhite;*/
+    /*background-color: black;*/
+    /*border: 1px solid black;*/
+    /*border-radius: 10px;*/
+/*}*/
 
-table.displayUsers
-{
-    margin: 0 auto;
-    border: 1px solid black;
-    border-collapse: collapse;
-    text-align: center;
-    width: 300px;
-    border-radius: 10px;
-}
-table.displayUsers th
-{
-    padding: 8px;
-    border: 1px solid black;
-    background-color: gray;
-}
-table.displayUsers td
-{
-    padding: 8px;
-    width: 150px;
-    border: 1px solid black;
-    background-color: lightgray;
-}
+/*table.displayUsers*/
+/*{*/
+    /*margin: 0 auto;*/
+    /*border: 1px solid black;*/
+    /*border-collapse: collapse;*/
+    /*text-align: center;*/
+    /*width: 300px;*/
+    /*border-radius: 10px;*/
+/*}*/
+/*table.displayUsers th*/
+/*{*/
+    /*padding: 8px;*/
+    /*border: 1px solid black;*/
+    /*background-color: gray;*/
+/*}*/
+/*table.displayUsers td*/
+/*{*/
+    /*padding: 8px;*/
+    /*width: 150px;*/
+    /*border: 1px solid black;*/
+    /*background-color: lightgray;*/
+/*}*/
 
-table.formHolder
-{
-    margin: 0 auto;
-    border: 1px solid black;
-    border-collapse: collapse;
-    text-align: center;
-    width: 300px;
-    border-radius: 10px;
-}
+/*table.formHolder*/
+/*{*/
+    /*margin: 0 auto;*/
+    /*border: 1px solid black;*/
+    /*border-collapse: collapse;*/
+    /*text-align: center;*/
+    /*width: 300px;*/
+    /*border-radius: 10px;*/
+/*}*/
 
-table.formHolder td
-{
-    padding: 8px;
-    text-align: center;
-    width: 150px;
-}
+/*table.formHolder td*/
+/*{*/
+    /*padding: 8px;*/
+    /*text-align: center;*/
+    /*width: 150px;*/
+/*}*/

@@ -6,6 +6,7 @@ import com.red.persistence.model.User;
 import com.red.persistence.service.LoginAttemptBlocker;
 import com.red.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,9 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +43,14 @@ public class UserController
 
     public UserController()
     {}
+
+    @RequestMapping(value="/users/{username}", method=RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody Boolean getUsersById( @PathVariable("username") String username )
+    {
+        User user = userService.loadUserByName(username);
+        return user != null;
+    }
 
     @RequestMapping(value="authentication/registration", method = RequestMethod.GET)
     public String registrationGet(Model model)
@@ -89,7 +96,7 @@ public class UserController
     }
 
     @RequestMapping(value="authentication/login", method = RequestMethod.POST)
-    public String loginPost(Model model, String username,  String password, HttpServletRequest request)
+    public String loginPost(Model model, String username, String password, HttpServletRequest request)
     {
         User user = userService.loadUserByName(username);
         if(user == null)

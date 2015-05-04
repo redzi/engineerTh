@@ -22,11 +22,6 @@
         <@indexPanel.indexPanel/>
         </nav>
         <section>
-            <div class="error">
-                <#if failure??>
-                    <br />Error Message: ${failure}<br/>
-                </#if>
-            </div>
         <@passwordResetPanel.passwordResetPanel/>
         </section>
         <footer>

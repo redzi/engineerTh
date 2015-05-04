@@ -3,6 +3,12 @@
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#import "/spring.ftl" as spring />
 <#assign xhtmlCompliant = true in spring>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-resource.js"></script>
+
 <div class="newUser">
         <@spring.bind "user" />
         <form action="" class="registrationForm" method="POST">
@@ -22,5 +28,11 @@
             </dl>
         </form>
 </div>
-
+<#--<script>-->
+<#--var app = angular.module('registration', []);-->
+<#--app.controller('userExists', function($scope, $http) {-->
+    <#--$http.get("http://www.w3schools.com/angular/customers.php")-->
+            <#--.success(function(response) {$scope.names = response.records;});-->
+<#--});-->
+<#--</script>-->
 </#macro>
