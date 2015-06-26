@@ -1,6 +1,9 @@
 <html>
 <title>play on ftl</title>
 <link type="text/css" href="/resources/greetPage.css" rel="stylesheet" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 <head>
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#import "../common/header.ftl" as header>
@@ -11,21 +14,22 @@
             <@header.header/>
         </header>
         <nav class="index">
-            1<br>
-            2<br>
-            3<br>
+            <div class="list-group">
+                <a href="/data/currencies" class="list-group-item active">Currency exchange rates</a>
+                <a href="#" class="list-group-item">Stock market data</a>
+            </div>
         </nav>
         <aside class="credentials">
             <@security.authorize access="isAnonymous()">
-                <a href="/authentication/login">Log in</a>
+                <a href="/authentication/login" class="btn btn-default btn-sm" role="button">Log in</a>
             </@security.authorize>
             <@security.authorize access="isAuthenticated()">
-                <a href="/authentication/logout">Log out</a>
+                <a href="authentication/logout" class="btn btn-default btn-sm" role="button">log out</a>
             </@security.authorize>
         </aside>
 
         <section>
-            <h2>test</h2>
+            test
         </section>
 
         <footer>

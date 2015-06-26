@@ -1,6 +1,7 @@
 package com.red.persistence.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
@@ -14,7 +15,7 @@ public class User
     private String name;
 
     @NotEmpty
-    @Size(min = 6, message = "Your password must at least 6 characters long")
+    @Size(min = 6, message = "Your password must be at least 6 characters long")
     private String password;
 
     @com.red.persistence.validation.Email
@@ -40,11 +41,13 @@ public class User
         this.userRole = userRole;
     }
 
+    @JsonIgnore
     public Long getId()
     {
         return id;
     }
 
+    @JsonIgnore
     public void setId(Long id)
     {
         this.id = id;
@@ -60,31 +63,37 @@ public class User
         this.name = name;
     }
 
+    @JsonIgnore
     public String getPassword()
     {
         return password;
     }
 
+    @JsonIgnore
     public void setPassword(String password)
     {
         this.password = password;
     }
 
+    @JsonIgnore
     public Email getEmail()
     {
         return email;
     }
 
+    @JsonIgnore
     public void setEmail(Email email)
     {
         this.email = email;
     }
 
+    @JsonIgnore
     public UserRole getUserRole()
     {
         return userRole;
     }
 
+    @JsonIgnore
     public void setUserRole(UserRole userRole)
     {
         this.userRole = userRole;

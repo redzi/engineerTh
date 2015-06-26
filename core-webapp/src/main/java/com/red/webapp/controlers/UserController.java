@@ -7,6 +7,7 @@ import com.red.persistence.service.LoginAttemptBlocker;
 import com.red.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,10 +19,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -44,12 +49,11 @@ public class UserController
     public UserController()
     {}
 
-    @RequestMapping(value="/users/{username}", method=RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Boolean getUsersById( @PathVariable("username") String username )
+    @RequestMapping(value="authentication/users/{username}", method=RequestMethod.GET)
+    public ResponseEntity getUsersById( @PathVariable("username") String username, HttpServletResponse response )
     {
         User user = userService.loadUserByName(username);
-        return user != null;
+        return user != null ?  new ResponseEntity(HttpStatus.OK) :  new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @RequestMapping(value="authentication/registration", method = RequestMethod.GET)
@@ -88,6 +92,48 @@ public class UserController
         return "redirect:login/loginPage";
 
     }
+
+//    @RequestMapping(value="authentication/registration", method = RequestMethod.POST)
+//    public String registrationPost(Model model, String username, String mailAddress, String password, WebRequest request)
+//    {
+//        User newUser = new User();
+//        newUser.setPassword(password);
+//        newUser.setName(username);
+//        Email email = new Email(mailAddress);
+//        newUser.setEmail(email);
+//
+//        // apply binder to custom target object
+//        WebRequestDataBinder binder = new WebRequestDataBinder(newUser);
+//
+//
+//        binder.bind(request);
+//        BindingResult result = binder.getBindingResult();
+//
+//        if(result.hasErrors())
+//        {
+//            model.addAttribute("message", "some errors with user");
+//            return "login/registrationPage";
+//        }
+//        try
+//        {
+//            User registered = userService.saveUserRole(newUser.getName(), newUser.getPassword(), newUser.getEmail().getAddress());
+//        }
+//        catch(UsernameAlreadyExistException ex)
+//        {
+//            result.rejectValue("name", "err_qna_not_blank", "Username is already taken");
+//            return "login/registrationPage";
+//        }
+//
+//        model.addAttribute("user", newUser.getName());
+//
+//        if(authenticate(newUser, newUser.getPassword()))
+//        {
+//            return "redirect:../";
+//        }
+//
+//        return "redirect:login/loginPage";
+//
+//    }
 
     @RequestMapping(value="authentication/login", method = RequestMethod.GET)
     public String loginGet(Model model)

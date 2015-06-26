@@ -3,36 +3,72 @@
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#import "/spring.ftl" as spring />
 <#assign xhtmlCompliant = true in spring>
+<#import "../common/inputs.ftl" as inputs>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-resource.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
-<div class="newUser">
-        <@spring.bind "user" />
-        <form action="" class="registrationForm" method="POST">
-            <dl>
-                <dd><label for = "name">Name:</label>
-                <dd><@spring.formInput  "user.name" />
-                <dd><@spring.showErrors "<br>" />
-                <dd><label for = "email">Email:</label>
-                <dd><@spring.formInput "user.email" />
-                <dd><@spring.showErrors "<br>" />
-                <dd><label for = "password">Password:</label>
-                <dd><@spring.formPasswordInput "user.password" />
-                <dd><@spring.showErrors "<br>" />
-                <dd><input type="submit" value="Create" />
-                <dd></dd><input value="Reset" type="reset">
+<div class="container">
+    <#if Session.SPRING_SECURITY_LAST_EXCEPTION?? && Session.SPRING_SECURITY_LAST_EXCEPTION.message?has_content>
+        <div class="alert alert-warning col-sm-offset-2 col-sm-4">
+            <br /><strong>Error Message:</strong> ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
+        </div>
+        <div class="clearfix"></div>
+    </#if>
+    <#if failure??>
+        <div class="alert alert-warning col-sm-offset-2 col-sm-4" ng-cloak>
+            <br /><strong>Error Message:</strong> ${failure}<br/>
+        </div>
+        <div class="clearfix"></div>
+    </#if>
+    <div class="clearfix"></div>
+    <@spring.bind "user" />
+    <form class="form-horizontal" role="form" action="" method="post">
+        <div id="warning" class="alert alert-warning col-sm-offset-2 col-sm-4">
+            <div id="message"></div>
+        </div>
+        <div class="clearfix"></div>
+        <@inputs.textInputWithMessage "user.name" "class='form-control' placeholder='Enter username' id='username'
+                       onblur='checkUser()'" "Username:" "text"/>
+        <@spring.showErrors "<br>" "class='alert alert-warning col-sm-offset-2 col-sm-4'" />
+        <div class="clearfix"></div>
+        <@inputs.textInputWithMessage "user.email" "class='form-control' placeholder='Enter email'" "Email:" "email"/>
+        <@spring.showErrors "<br>" "class='alert alert-warning col-sm-offset-2 col-sm-4'" />
+        <div class="clearfix"></div>
+        <@inputs.textInputWithMessage "user.password" "class='form-control' placeholder='Enter password'" "Password:" "password"/>
+        <@spring.showErrors "<br>" "class='alert alert-warning col-sm-offset-2 col-sm-4'" />
+        <div class="clearfix"></div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="reset" class="btn btn-default">Reset</button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </dl>
-        </form>
+            </div>
+        </div>
+     </form>
 </div>
-<#--<script>-->
-<#--var app = angular.module('registration', []);-->
-<#--app.controller('userExists', function($scope, $http) {-->
-    <#--$http.get("http://www.w3schools.com/angular/customers.php")-->
-            <#--.success(function(response) {$scope.names = response.records;});-->
-<#--});-->
-<#--</script>-->
+
+<script>
+    var warningSign =  $('#warning');
+    warningSign.hide();
+    var userName = $('#name');
+
+    var checkUser = function(){
+        var path = "users/" + userName.val();
+        var request = $.ajax({
+            url: path,
+            method: "GET",
+        });
+        request.done(function( response ) {
+            var message = $('#message');
+            message.html("user: " + userName.val() + " already exists!");
+            warningSign.show();
+
+        });
+        request.fail(function( response ) {
+            warningSign.hide();
+        });
+    }
+</script>
 </#macro>
+

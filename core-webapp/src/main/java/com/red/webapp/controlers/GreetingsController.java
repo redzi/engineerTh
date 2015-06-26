@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value="/")
 public class GreetingsController
 {
+
     @RequestMapping(method = RequestMethod.GET)
     public String entryPage(Model model)
     {
         return ("firstPage/greetings");
     }
+
 }

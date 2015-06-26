@@ -3,33 +3,37 @@
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
-<div ng-app="login" ng-controller="loginCtrl" class="container">
+<div class="container">
     <#if Session.SPRING_SECURITY_LAST_EXCEPTION?? && Session.SPRING_SECURITY_LAST_EXCEPTION.message?has_content>
-        <div class="alert alert-warning">
+        <div class="alert alert-warning col-sm-offset-2 col-sm-4">
             <br /><strong>Error Message:</strong> ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
         </div>
+        <div class="clearfix"></div>
     </#if>
     <#if failure??>
-        <div class="alert alert-warning">
+        <div class="alert alert-warning col-sm-offset-2 col-sm-4">
             <br /><strong>Error Message:</strong> ${failure}<br/>
         </div>
+        <div class="clearfix"></div>
     </#if>
     <form class="form-horizontal" role="form" action="" method="post">
+        <div id="warning" class="alert alert-warning col-sm-offset-2 col-sm-4">
+            <div id="message"></div>
+        </div>
+        <div class="clearfix"></div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="username">Username:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" ng-model="username"
-                       ng-blur="checkUser()">
+                <input type="text" class="form-control" required="required" id="username" name="username" placeholder="Enter username"
+                       onblur="checkUser()">
             </div>
         </div>
-        <div class="alert alert-danger" ng-show="shown"> {{message}} </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="password">Password:</label>
             <div class="col-sm-4">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                <input type="password" class="form-control" required="required" id="password" name="password" placeholder="Enter password">
             </div>
         </div>
         <div class="form-group">
@@ -55,24 +59,27 @@
     </form>
 </div>
 <script>
-    var app = angular.module('login', []);
-    app.controller('loginCtrl', function($scope, $http) {
-        $scope.shown = false;
+        var warningSign =  $('#warning');
+        warningSign.hide();
+        var userName = $('#username');
 
-        $scope.checkUser = function() {
-            var path = "/users/" + $scope.username;
-            $scope.shown = true;
-            var responsePromise = $http.get(path);
-            responsePromise.success(function (responce) {
-                $scope.shown = true;
-                $scope.message = "ok";
-                var dataprop = responce;
+        var checkUser = function(){
+            var path = "users/" + userName.val();
+            var request = $.ajax({
+                url: path,
+                method: "GET",
             });
-            responsePromise.error(function (data, status, headers, config) {
-                $scope.shown = true;
-                $scope.message = "failed";
+
+            request.done(function( response ) {
+                warningSign.hide();
             });
-        };
-    });
+
+            request.fail(function( response ) {
+                var message = $('#message');
+                message.html("user: " + userName.val() + " does not exist!")
+                warningSign.show();
+            });
+        }
 </script>
+
 </#macro>
