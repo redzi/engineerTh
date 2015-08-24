@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by tom on 2015-06-14.
  */
-public interface CurrencyListProvider
+public interface CurrencyListProvider<K, V>
 {
-    Map<String, String> getCurrencyList();
+    Map<K, V> getCurrencyList();
 }

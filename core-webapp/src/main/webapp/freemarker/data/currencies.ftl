@@ -126,16 +126,17 @@
             var table = $('#currencyGraph');
             var rates = JSON.parse(response);
 
-
             var feedData = [];
 
-            var i = 0;
-            $.each(rates.rates, function(key, value){
-                feedData[i] = new Array();
-                feedData[i][0] = new Date(key);
-                feedData[i][1] = Math.round(value.rate * 100) / 100;
-                i++;
-            });
+            for(var i = 0; i < getLength(rates); i++ )
+            {
+                $.each(rates[i], function(key, value){
+                    feedData[i] = new Array();
+                    feedData[i][0] = new Date(key);
+                    feedData[i][1] = Math.round(value * 100) / 100;
+                });
+            }
+
 
             var data = new google.visualization.DataTable();
             data.addColumn('date', 'Date');
@@ -177,6 +178,14 @@
 
     var clearCurrencyTable = function(){
         $('#currencyTable').find("tr:gt(0)").remove();
+    }
+
+    var getLength = function(obj){
+        var len = 0;
+        $.each(obj, function(i, elem) {
+            len++;
+        });
+        return len;
     }
 
     google.load('visualization', '1', {packages: ['corechart']});

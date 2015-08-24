@@ -2,18 +2,23 @@ package com.red.webapp.api.currency;
 
 import com.red.webapp.json.CurrencyRate;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 public class CurrencyRateProviderImpl implements CurrencyRateProvider
 {
-    private static final String API_KEY = "jr-9f2441c653fff10ca4f199636e01a72c";
-    private static final String endpoint = "http://jsonrates.com/get/";
-    private static final String historyEndpoint = "http://jsonrates.com/historical/";
+    private static final String API_KEY = "53df5e3c2150913ac20e5ae923683378";
+    private static final String endpoint = "http://api.fixer.io/latest";
+    private static final String historyEndpoint = "http://currencies.apps.grandtrunk.net/getrange/";
 
     public CurrencyRate getCurrencyRates(String baseCurrency)
     {
@@ -58,7 +63,7 @@ public class CurrencyRateProviderImpl implements CurrencyRateProvider
 
     private String getEndPoint(String baseCurrency)
     {
-        return endpoint + "?" + "base=" + baseCurrency + "&" + "apiKey=" + API_KEY;
+        return endpoint + "?" + "base=" + baseCurrency; //+ "&" + "access_key=" + API_KEY;
     }
 
     public String getHistoricalCurrencyRates(String baseCurrency, String compareToCurrency)
@@ -66,20 +71,41 @@ public class CurrencyRateProviderImpl implements CurrencyRateProvider
         String data = "";
         String targetEndPoint = getHistoryEndPoint(baseCurrency, compareToCurrency);
 
+        JSONObject quotes = new JSONObject();
+
         try
         {
             URL url = new URL(targetEndPoint);
             data = IOUtils.toString(url);
+            String[] historicalRates = data.split("\\r?\\n");
+            for(int i = 0; i < historicalRates.length; i++)
+            {
+                String line = historicalRates[i];
+                String date = line.substring(0, line.indexOf(" "));
+                String rate = line.substring(line.indexOf(" ")+1);
+                JSONObject rates = new JSONObject();
+                rates.put(date, rate);
+                quotes.put(String.valueOf(i), rates);
+            }
         }
         catch(IOException ex)
         {
             return "";
         }
-        return data;
+        return quotes.toString();
     }
 
     private String getHistoryEndPoint(String baseCurrency, String compareToCurrency)
     {
-        return historyEndpoint + "?from=" +  baseCurrency + "&to=" + compareToCurrency + "&dateStart=" +"2015-06-01" + "&dateEnd=" + "2015-06-20" + "&apiKey=" + API_KEY;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        Date nowDate = cal.getTime();
+        cal.add(Calendar.MONTH, -1);
+        Date monthAgoDate = cal.getTime();
+
+        String now = df.format(nowDate);
+        String monthAgo = df.format(monthAgoDate);
+
+        return historyEndpoint + monthAgo + "/" + now + "/" + baseCurrency + "/" + compareToCurrency;
     }
 }
