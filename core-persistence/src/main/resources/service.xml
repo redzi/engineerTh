@@ -38,6 +38,14 @@
         <property name="userSecurityService" ref="userSecurityService"/>
     </bean>
 
+    <bean id="stockNameDao" class="com.red.persistence.dao.StockNameDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="stockNameService" class="com.red.persistence.service.StockNameServiceImpl">
+        <property name="stockNameDao" ref="stockNameDao"/>
+    </bean>
+
     <bean id="userSecurityService" class="com.red.persistence.service.UserSecurityService">
         <property name="userDao" ref="userDao"/>
         <property name="passwordEncoder" ref="encoder"/>

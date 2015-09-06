@@ -16,7 +16,7 @@
         <nav class="index">
             <div class="list-group">
                 <a href="/data/currencies" class="list-group-item active">Currency exchange rates</a>
-                <a href="#" class="list-group-item">Stock market data</a>
+                <a href="/data/stock" class="list-group-item">Stock market data</a>
             </div>
         </nav>
         <aside class="credentials">

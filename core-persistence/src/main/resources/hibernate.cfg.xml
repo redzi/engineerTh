@@ -15,5 +15,6 @@
         <mapping resource="mappings/User.hbm.xml"/>
         <mapping resource="mappings/UserRole.hbm.xml"/>
         <mapping resource="mappings/Test.hbm.xml"/>
+        <mapping resource="mappings/StockName.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

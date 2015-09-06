@@ -32,4 +32,21 @@
 
     <bean id="currencyListProvider" class="com.red.webapp.api.currency.CurrencyListProviderImpl"/>
 
+    <bean id="stockQuotaProvider" class="com.red.webapp.api.stock.StockQuotaProviderImpl"/>
+
+    <bean id="stockListProvider" class="com.red.webapp.api.stock.StockListProviderImpl">
+        <property name="stockNameService" ref="stockNameService"/>
+    </bean>
+
+    <bean id="dowProvider" class="com.red.webapp.api.stock.DowListProvider">
+        <property name="targetListClass">
+            <value>java.util.ArrayList</value>
+        </property>
+        <property name="locations">
+            <list>
+                <value>classpath:dow.txt</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
