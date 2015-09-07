@@ -65,8 +65,9 @@ public class UserController
     }
 
     @RequestMapping(value="authentication/registration", method = RequestMethod.POST)
-    public String registrationPost(Model model,  @ModelAttribute(value="user") @Valid User newUser, BindingResult result, WebRequest request)
+    public String registrationPost(Model model,  @ModelAttribute(value="user") @Valid User newUser, BindingResult result, HttpServletRequest request)
     {
+        User registered;
         if(result.hasErrors())
         {
             model.addAttribute("message", "some errors with user");
@@ -74,7 +75,7 @@ public class UserController
         }
         try
         {
-            User registered = userService.saveUserRole(newUser.getName(), newUser.getPassword(), newUser.getEmail().getAddress());
+            registered = userService.saveUserRole(newUser.getName(), newUser.getPassword(), newUser.getEmail().getAddress());
         }
         catch(UsernameAlreadyExistException ex)
         {
@@ -86,6 +87,7 @@ public class UserController
 
         if(authenticate(newUser, newUser.getPassword()))
         {
+            request.getSession().setAttribute("LOGGEDIN_USER", registered);
             return "redirect:../";
         }
 
@@ -167,6 +169,7 @@ public class UserController
             model.addAttribute("failure", "This account is blocked!");
             return "login/loginPage";
         }
+        request.getSession().setAttribute("LOGGEDIN_USER", user);
         loginAttemptBlocker.loginSuccessful(request.getRemoteAddr());
         return "redirect:../";
     }

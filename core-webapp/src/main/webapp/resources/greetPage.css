@@ -30,7 +30,7 @@ aside.credentials
 
 section
 {
-    width: 350px;
+    width: 1000px;
     float: left;
     padding: 10px;
     background-color: ghostwhite;
@@ -51,3 +51,60 @@ footer
     max-height: 200px;
     overflow-x: hidden;
 }
+
+.dataHolder {
+    width:100%;
+    margin : 0;
+}
+
+#linechart_material {
+    width:50%;
+    margin : 0;
+    float : left ;
+}
+
+#stockDataQuotesInfo {
+    width:40%;
+    float : right ;
+    margin: 60 50 20 1;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+}
+
+#stockDataQuotesInfo tr{
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    background-color: whitesmoke;
+}
+
+#stockDataQuotesInfo tr:nth-child(even) {
+    background-color: ghostwhite;
+}
+
+#stockDataQuotesInfo td{
+    padding: 5px 7px 2px 7px;
+}
+
+#buyHolder{
+    text-align: center;
+}
+
+
+/*#stockDataQuotesInfo th*/
+/*{*/
+    /*padding: 8px;*/
+    /*width: 150px;*/
+    /*border: 1px solid black;*/
+    /*background-color: lightgray;*/
+    /*font-size: 1.1em;*/
+    /*text-align: left;*/
+    /*padding-top: 5px;*/
+    /*padding-bottom: 4px;*/
+    /*color: #ffffff;*/
+/*}*/
+
+/*#stockDataQuotesInfo tr.alt td {*/
+    /*color: #000000;*/
+    /*background-color: #EAF2D3;*/
+/*}*/

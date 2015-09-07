@@ -1,13 +1,17 @@
 package com.red.webapp.controlers;
 
+import com.red.webapp.api.stock.StockCollapse;
 import com.red.webapp.api.stock.StockListProvider;
 import com.red.webapp.api.stock.StockQuotaProvider;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -32,10 +36,18 @@ public class StockController
     }
 
     @RequestMapping(value="/data/stock/{stock}", method=RequestMethod.GET)
-    public @ResponseBody String getStockQuota( @PathVariable("stock") String stock)
+    public @ResponseBody String getStockQuota( @PathVariable("stock") String stock, HttpServletRequest request)
     {
         JSONObject data = new JSONObject(stockQuotaProvider.getLatestQuota(stock));
+        JSONObject dataset = data.getJSONObject("dataset");
+        JSONArray quotes = dataset.getJSONArray("data");
+        JSONArray quote = quotes.getJSONArray(0);
+        BigDecimal price = new BigDecimal(String.valueOf(quote.getDouble(4)));
+
+        data.put("graph", stockQuotaProvider.getGraphData(stock, StockCollapse.MONTHLY));
         data.put("change", stockQuotaProvider.getPercentChange(stock));
+        request.getSession().setAttribute("productCode", stock);
+        request.getSession().setAttribute("pricePerUnit", price);
 
         return data.toString();
     }
@@ -43,14 +55,12 @@ public class StockController
     @RequestMapping(value = "/data/stock/history", method = RequestMethod.POST)
     public @ResponseBody String saveUser(@RequestParam Map<String,String> requestParams)
     {
-        String baseCurrency = requestParams.get("stock");
+        String stock = requestParams.get("stock");
         String compareToCurrency = requestParams.get("stock");
 
-        return null;
+        JSONObject data = new JSONObject(stockQuotaProvider.getGraphData(stock, StockCollapse.MONTHLY));
+
+        return data.toString();
     }
-
-
-
-
 
 }

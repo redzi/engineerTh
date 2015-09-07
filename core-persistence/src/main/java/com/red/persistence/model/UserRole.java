@@ -1,7 +1,9 @@
 package com.red.persistence.model;
 
 
-public class UserRole
+import java.io.Serializable;
+
+public class UserRole implements Serializable
 {
     private Long id;
     private User user;

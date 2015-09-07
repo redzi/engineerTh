@@ -1,6 +1,8 @@
 package com.red.persistence.model;
 
-public class Email
+import java.io.Serializable;
+
+public class Email  implements Serializable
 {
     private Long id;
     private String address;

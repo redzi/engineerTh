@@ -20,6 +20,9 @@
     <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
     <#import "../common/header.ftl" as header>
     <#import "../common/footer.ftl" as footer>
+    <style>
+
+    </style>
 </head>
 <body>
 <div class="all">
@@ -38,6 +41,7 @@
     </@security.authorize>
     <@security.authorize access="isAuthenticated()">
         <a href="/authentication/logout" class="btn btn-default btn-sm" role="button">log out</a>
+        <a href="/data/product/cart" class="btn btn-default btn-sm" role="button">view cart content</a>
     </@security.authorize>
     </aside>
 
@@ -63,10 +67,53 @@
             </table>
         </div>
     </#if>
-        <div id="stockDataHolder" style="width:50%; height: 200px; background-color: grey;">
-            <div id="stockDataGraph" style="width: 20%; float:left; margin: 1%; background-color: grey;">A</div>
-            <div id="stockDataQuotesInfo" style="width: 20%; float:left; margin: 1%; background-color: grey;">B</div>
+        <div id="stockDataHolder" class="dataHolder">
+            <div id="linechart_material" >
+            </div>
+            <div id="stockDataQuotesInfo" >
+                <table>
+                    <tr>
+                        <td>Current value (close value): </td>
+                        <td id="val"></td>
+                    </tr>
+                    <tr>
+                        <td id="dailyDate">Daily percentage change to last pricing: </td>
+                        <td id="daily"></td>
+                    </tr>
+                    <tr>
+                        <td>Last session opening value: </td>
+                        <td id="open"></td>
+                    </tr>
+                    <tr>
+                        <td>Last session highest value: </td>
+                        <td id="high"></td>
+                    </tr>
+                    <tr>
+                        <td>Last session lowest value: </td>
+                        <td id="low"></td>
+                    </tr>
+                    <tr>
+                        <td id="weeklyDate">Weekly percentage change: </td>
+                        <td id="weekly"></td>
+                    </tr>
+                    <tr>
+                        <td id="monthlyDate">Monthly percentage change: </td>
+                        <td id="monthly"></td>
+                    </tr>
+                    <tr>
+                        <td id="annualDate">Annual percentage change: </td>
+                        <td id="annual"></td>
+                    </tr>
+                </table>
+            </div>
+            <div style="clear: both;" > </div>
         </div>
+
+    <@security.authorize access="isAuthenticated()">
+        <div id="buyHolder">
+        </div>
+    </@security.authorize>
+
     </section>
 
     <footer>
@@ -79,14 +126,21 @@
 
 <script>
     $( document ).ready(function() {
-        hideMyTable();
+        hideMyTable($('#myTableHolder'));
+        hideMyTable( $('#stockDataQuotesInfo'))
         $('#myTable').dataTable();
 
         var base = 'stock';
-        $('#myTable tr').each(function(i){
-            $(this).attr('id', base+'_'+i);
-            $(this).click(getQuota);
+        $(function () {
+            $('#myTable tr').each(function(i){
+                $(this).attr('id', base+'_'+i);
+                $(this).click(getQuota);
+            });
+            $(document).on('click','#myTable tr',function(){
+                getQuota(event);
+            });
         });
+
 
         $(function () {
             var token = $("meta[name='_csrf']").attr("content");
@@ -95,11 +149,11 @@
                 xhr.setRequestHeader(header, token);
             });
         });
-        showMyTable();
+        showMyTable($('#myTableHolder'));
     });
 
     var getQuota = function(event){
-        clearMyTable();
+        clearMyTable($('#myTable'));
         var targetNode = event.target;
         var codeNode = $(targetNode).parent().children('td.code');
         var code = $(codeNode).text();
@@ -108,17 +162,17 @@
             url: path,
             method: "GET",
         });
-        hideMyTable();
+        hideMyTable( $('#myTableHolder'));
 
         request.done(function( response ) {
             var data = JSON.parse(response);
-            showQuoteData(data);
+            showQuoteData(data, code);
 
         });
         return false;
     }
 
-    var showQuoteData = function(data){
+    var showQuoteData = function(data, stockName){
         var baseDataset = data.dataset;
         var change = data.change;
         var daily = JSON.parse(change.daily);
@@ -127,13 +181,17 @@
         var annual = JSON.parse(change.annual);
         var currentData = baseDataset.data;
 
+        var graphData = data.graph;
+        graphData = JSON.parse(graphData);
+        graphData = graphData.dataset;
+
         var dailyQuotes = daily.dataset;
         var dailyDate = dailyQuotes.end_date;
         dailyQuotes = dailyQuotes.data;
         dailyQuotes = dailyQuotes[0];
 
         var weeklyQuotes = weekly.dataset;
-        var weeklyDate = weekly.end_date;
+        var weeklyDate = weeklyQuotes.end_date;
         weeklyQuotes = weeklyQuotes.data;
         weeklyQuotes = weeklyQuotes[0];
 
@@ -150,7 +208,7 @@
         var currentLastDate = baseDataset.end_date;
 
         var quotes = currentData[0];
-        var currentOpenQuota = quotes[1]
+        var currentOpenQuota = quotes[1];
         var currentHighQuota = quotes[2];
         var currentLowQuota = quotes[3];
         var currentCloseQuota = quotes[4];
@@ -165,20 +223,94 @@
         var monthlyPercentChange = calculatePercentChange(currentCloseQuota, monthlyCloseQuota);
         var annualPercentChange = calculatePercentChange(currentCloseQuota, annualCloseQuota);
 
-        var table = $('#stockDataTable');
+        var quotesContainer = $('#stockDataQuotesInfo');
 
-        $(table).append("<tr><td class='graph' c>"+lastDate+"</td><td><table class='dataView'><tr><td>test</td></tr></table></td></tr>");
+        var quotesData = new Array();
 
-        $('#dataView').append("<tr><td class='graph'>"+lastDate+"</td><td class='dataView'></td></tr>")
+        quotesData.push(currentData);
+        quotesData.push(currentCloseQuota);
+        quotesData.push(currentOpenQuota);
+        quotesData.push(currentHighQuota);
+        quotesData.push(currentLowQuota);
+        quotesData.push(dailyDate);
+        quotesData.push(dailyPercentChange);
+        quotesData.push(weeklyDate);
+        quotesData.push(weeklyPercentChange);
+        quotesData.push(monthlyDate);
+        quotesData.push(monthlyPercentChange);
+        quotesData.push(annualDate);
+        quotesData.push(annualPercentChange);
 
+        var value = $('#val');
+        value.text(currentCloseQuota);
+        value = $('#daily');
+        value.text(dailyPercentChange + "%");
+        value = $('#open');
+        value.text(currentOpenQuota);
+        value = $('#high');
+        value.text(currentHighQuota);
+        value = $('#low');
+        value.text(currentLowQuota);
+        value = $('#weekly');
+        value.text(weeklyPercentChange + "%");
+        value = $('#monthly');
+        value.text(monthlyPercentChange + "%");
+        value = $('#annual');
+        value.text(annualPercentChange + "%");
+        showMyTable($('#stockDataQuotesInfo'));
 
+        buildGraph(graphData, stockName);
 
+        buildBuyThisItem(stockName);
+    }
 
-        if(lastQuota){
-            var txt = "";
-            var graph = $('stockDataGraph');
+    var buildGraph = function(graphData, stockName){
+
+        var table = $('#stockDataGraph');
+
+        var dataQuotes = graphData.data;
+
+        var feedData = [];
+
+        var length = getLength(dataQuotes);
+        for(var i = 0; i < length; i++ )
+        {
+            var quotes = dataQuotes[i];
+            var date = quotes[0];
+            var price = quotes[4];
+            feedData[i] = new Array();
+            feedData[i][0] = new Date(date);
+            feedData[i][1] = Math.round(price * 100) / 100;
         }
 
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', stockName + " price");
+
+
+        data.addRows(feedData);
+
+
+        var options = {
+            title: stockName + ' price history',
+            width: 500,
+            height: 300,
+            hAxis: {
+                format: 'd/M/yy',
+                gridlines: {count: 15}
+            },
+            vAxis: {
+                gridlines: {color: 'none'},
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('linechart_material'));
+
+        chart.draw(data, options);
+    }
+
+    var prepareData = function(){
 
     }
 
@@ -238,16 +370,16 @@
         return diffPercent;
     }
 
-    var clearMyTable = function(){
-        $('#myTable').find("tr:gt(0)").remove();
+    var clearMyTable = function(element){
+        element.find("tr:gt(0)").remove();
     }
 
-    var hideMyTable = function(){
-        $('#myTableHolder').hide();
+    var hideMyTable = function(element){
+        element.hide();
     }
 
-    var showMyTable = function(){
-        $("#myTableHolder").show();
+    var showMyTable = function(element){
+        element.show();
     }
 
     var getLength = function(obj){
@@ -256,6 +388,14 @@
             len++;
         });
         return len;
+    }
+
+    var buildBuyThisItem = function(productName){
+        $('<a>',{
+            text: 'Buy this product',
+            href: '/data/product/'+productName,
+            class: 'btn btn-default btn-sm',
+        }).appendTo('#buyHolder');
     }
 
     google.load('visualization', '1', {packages: ['corechart']});

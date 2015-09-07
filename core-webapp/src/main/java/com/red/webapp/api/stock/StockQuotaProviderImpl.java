@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by tom on 2015-08-25.
@@ -17,6 +19,9 @@ public class StockQuotaProviderImpl implements StockQuotaProvider
 {
     private static final String API_KEY = "kMprXsYZhL2iYpUtpkYS";
     private static final String endpoint = "https://www.quandl.com/api/v3/datasets/WIKI/";
+
+    //TODO must be clearable cach!!!!
+    private Map<String,String> newestAvailableDates = new ConcurrentHashMap<>();
 
     public String getLatestQuota(String stock)
     {
@@ -62,12 +67,12 @@ public class StockQuotaProviderImpl implements StockQuotaProvider
         return data;
     }
 
-    public String getGraphData(String stock)
+    public String getGraphData(String stock, StockCollapse collapse)
     {
         String data = "";
         try
         {
-            URL url = new URL(getEndpointForLatestQuota(stock));
+            URL url = new URL(getGraphEndpoint(stock, StockCollapse.MONTHLY));
             data = IOUtils.toString(url);
         }
         catch (IOException ex)
@@ -80,24 +85,36 @@ public class StockQuotaProviderImpl implements StockQuotaProvider
 
     private String getEndpointForLatestQuota(String stock)
     {
-        return endpoint + stock + ".json?" +"start_date="+ getDateNotWeekend() + "&end_date=" + getDateNotWeekend() + "&api_key=" + API_KEY;
+        return endpoint + stock + ".json?" +"?&row=1&limit=1" + "&api_key=" + API_KEY;
     }
 
     private String getEndpointForPastQuota(String stock, StockCollapse collapse)
     {
-        return endpoint + stock + ".json?" +"start_date="+ getDate(collapse) + "&end_date=" + getDate(collapse) + "&api_key=" + API_KEY;
+        return endpoint + stock + ".json?" +"start_date="+ getDate(collapse, stock) + "&end_date=" + getDate(collapse, stock) + "&api_key=" + API_KEY;
     }
 
     private String getEndpointForPercentageDifference(String stock, StockCollapse collapse)
     {
-        return endpoint + stock + ".json?" +"start_date="+ getDate(collapse) + "&end_date=" + getDateNotWeekend() + "&collapse=" + StockCollapse.DAILY.toString().toLowerCase() + "&rows=1" + "&transform=rdiff" + "&api_key=" + API_KEY;
+        return endpoint + stock + ".json?" +"start_date="+ getDate(collapse, stock) + "&end_date=" + getNewestAvailableDate(stock) + "&collapse=" + StockCollapse.DAILY.toString().toLowerCase() + "&rows=1" + "&transform=rdiff" + "&api_key=" + API_KEY;
+    }
+
+    private String getGraphEndpoint(String stock, StockCollapse collapse)
+    {
+        return endpoint + stock + ".json?" +"start_date="+ getDate(collapse, stock) + "&end_date=" + getNewestAvailableDate(stock) + "&api_key=" + API_KEY;
     }
 
 
 
-    private String getDate(StockCollapse collapse)
+    private String getDate(StockCollapse collapse, String stock)
     {
-        DateTime time = DateTime.now();
+        String date = getNewestAvailableDate(stock);
+
+        int year = Integer.valueOf(date.substring(0,4));
+        int month = Integer.valueOf(date.substring(5,7));
+        int day = Integer.valueOf(date.substring(8,10));
+
+        DateTime time = new DateTime(year, month, day,0,0);
+
         time = checkIfNotWeekend(time);
         switch(collapse)
         {
@@ -118,11 +135,34 @@ public class StockQuotaProviderImpl implements StockQuotaProvider
         return time.toString(getFormatter());
     }
 
-    private String getDateNotWeekend()
+    private String getNewestAvailableDate(String stock)
     {
-        DateTime time = DateTime.now();
-        time = checkIfNotWeekend(time);
-        return time.toString(getFormatter());
+        if(newestAvailableDates.get(stock) == null)
+        {
+            String data = "";
+            try
+            {
+                URL url = new URL(getEndpointForLatestQuota(stock));
+                data = IOUtils.toString(url);
+            }
+            catch (IOException ex)
+            {
+                //TODO replace println with log
+                System.out.println("StockQuotaProviderImpl - A problem occured!");
+            }
+
+            JSONObject obj = new JSONObject(data);
+            JSONObject obj1 = obj.getJSONObject("dataset");
+            String date = obj1.getString("newest_available_date");
+
+            int year = Integer.valueOf(date.substring(0,4));
+            int month = Integer.valueOf(date.substring(5,7));
+            int day = Integer.valueOf(date.substring(8,10));
+
+            DateTime time = new DateTime(year, month, day,0,0);
+            newestAvailableDates.put(stock, time.toString(getFormatter()));
+        }
+        return newestAvailableDates.get(stock);
     }
 
     private DateTime checkIfNotWeekend(DateTime time)
@@ -138,6 +178,5 @@ public class StockQuotaProviderImpl implements StockQuotaProvider
     {
         return DateTimeFormat.forPattern("yyyy-MM-dd");
     }
-
 
 }

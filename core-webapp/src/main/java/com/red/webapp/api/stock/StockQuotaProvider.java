@@ -9,5 +9,5 @@ public interface StockQuotaProvider
 {
     String getLatestQuota(String stock);
     JSONObject getPercentChange(String stock);
-
+    String getGraphData(String stock, StockCollapse collapse);
 }

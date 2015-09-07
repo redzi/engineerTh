@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.red.persistence.model">
+    <class name="Product" table="PRODUCTS">
+        <id name="id" column="PRODUCT_ID">
+            <generator class="native"/>
+        </id>
+        <one-to-one name="stockName" class="com.red.persistence.model.StockName" cascade="save-update"/>
+        <property name="pricePerUnit" column="PRICE_PER_UNIT" type="big_decimal"  not-null="true" unique="false" />
+        <property name="unitNo" column="UNIT_NO" type="big_decimal"  not-null="true" unique="false" />
+    </class>
+</hibernate-mapping>

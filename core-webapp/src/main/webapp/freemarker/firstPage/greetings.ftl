@@ -25,6 +25,7 @@
             </@security.authorize>
             <@security.authorize access="isAuthenticated()">
                 <a href="authentication/logout" class="btn btn-default btn-sm" role="button">log out</a>
+                <a href="/data/product/cart" class="btn btn-default btn-sm" role="button">view cart content</a>
             </@security.authorize>
         </aside>
 

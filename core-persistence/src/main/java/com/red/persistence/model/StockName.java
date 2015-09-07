@@ -1,9 +1,11 @@
 package com.red.persistence.model;
 
+import java.io.Serializable;
+
 /**
  * Created by tom on 2015-09-06.
  */
-public class StockName
+public class StockName implements Serializable
 {
     private Long id;
     private String code;
@@ -11,6 +13,11 @@ public class StockName
 
     public StockName()
     {
+    }
+
+    public StockName(String code)
+    {
+        this.code = code;
     }
 
     public StockName(String code, String name)
