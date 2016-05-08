@@ -8,8 +8,13 @@
         <id name="id" column="PRODUCT_ID">
             <generator class="native"/>
         </id>
-        <one-to-one name="stockName" class="com.red.persistence.model.StockName" cascade="save-update"/>
         <property name="pricePerUnit" column="PRICE_PER_UNIT" type="big_decimal"  not-null="true" unique="false" />
-        <property name="unitNo" column="UNIT_NO" type="big_decimal"  not-null="true" unique="false" />
+        <property name="unitNo" column="UNIT_NO" type="integer"  not-null="true" unique="false" />
+        <many-to-one name="wallet" class="com.red.persistence.model.Wallet" fetch="select">
+            <column name="WALLET_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="stockName" class="com.red.persistence.model.StockName" fetch="select">
+            <column name="STOCK_NAME_ID" not-null="true" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

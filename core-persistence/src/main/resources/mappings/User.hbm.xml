@@ -12,5 +12,6 @@
         <property name="password" column="PASSWORD" type="string" length="65" not-null="true"/>
         <one-to-one name="email" class="com.red.persistence.model.Email" cascade="save-update"/>
         <one-to-one name="userRole" class="com.red.persistence.model.UserRole" cascade="save-update"/>
+        <one-to-one name="wallet" class="com.red.persistence.model.Wallet" cascade="save-update"/>
     </class>
 </hibernate-mapping>

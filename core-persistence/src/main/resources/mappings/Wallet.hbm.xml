@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.red.persistence.model">
+    <class name="Wallet" table="WALLETS">
+        <id name="id" column="USER_ID">
+            <generator class="foreign">
+                <param name="property">User</param>
+            </generator>
+        </id>
+        <property name="balance" column="BALANCE" type="java.math.BigDecimal" not-null="false" />
+        <one-to-one name="User" class="com.red.persistence.model.User" constrained="true"/>
+        <set name="products" table="PRODUCTS"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PRODUCT_ID" not-null="false" />
+            </key>
+            <one-to-many class="com.red.persistence.model.Product" />
+        </set>
+    </class>
+</hibernate-mapping>

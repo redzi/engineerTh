@@ -1,9 +1,9 @@
 <#macro loginPanel>
 <link type="text/css" href="/resources/main.css" rel="stylesheet" />
 
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
 <div class="container">
     <#if Session.SPRING_SECURITY_LAST_EXCEPTION?? && Session.SPRING_SECURITY_LAST_EXCEPTION.message?has_content>
@@ -39,7 +39,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-4">
                 <div class="checkbox">
-                    <label><input type="checkbox"> Remember me</label>
+                    <label><input type="checkbox" name="remember-me" value="true"> Remember me</label>
                 </div>
             </div>
         </div>

@@ -2,21 +2,21 @@
 <title>Stock market data</title>
 <head>
     <link type="text/css" href="/resources/greetPage.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet"
-          href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css" />
+          href="https://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css" />
     <script type="text/javascript"
-            src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+            src="https://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript"
-            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#import "../common/header.ftl" as header>
 <#import "../common/footer.ftl" as footer>

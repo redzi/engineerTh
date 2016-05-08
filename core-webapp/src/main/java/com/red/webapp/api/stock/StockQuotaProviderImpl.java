@@ -20,7 +20,7 @@ public class StockQuotaProviderImpl implements StockQuotaProvider
     private static final String API_KEY = "kMprXsYZhL2iYpUtpkYS";
     private static final String endpoint = "https://www.quandl.com/api/v3/datasets/WIKI/";
 
-    //TODO must be clearable cach!!!!
+    //TODO must be a clearable cache!!!!
     private Map<String,String> newestAvailableDates = new ConcurrentHashMap<>();
 
     public String getLatestQuota(String stock)

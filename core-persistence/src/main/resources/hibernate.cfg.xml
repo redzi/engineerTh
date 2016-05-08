@@ -7,7 +7,7 @@
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
         <property name="hibernate.connection.username">SYSTEM</property>
-        <property name="hibernate.connection.password">wielkioracle1</property>
+        <property name="hibernate.connection.password">password</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
         <property name="hibernate.default_schema">SYSTEM</property>
         <property name="show_sql">true</property>
@@ -16,5 +16,7 @@
         <mapping resource="mappings/UserRole.hbm.xml"/>
         <mapping resource="mappings/Test.hbm.xml"/>
         <mapping resource="mappings/StockName.hbm.xml" />
+        <mapping resource="mappings/Wallet.hbm.xml" />
+        <mapping resource="mappings/Product.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

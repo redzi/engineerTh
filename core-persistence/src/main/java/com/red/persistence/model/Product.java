@@ -17,15 +17,17 @@ public class Product implements Serializable
     private BigDecimal pricePerUnit;
     @NotNull
     private Integer unitNo;
+    private Wallet wallet;
 
     public Product()
     {}
 
-    public Product(StockName stockName, Integer unitNo, BigDecimal pricePerUnit)
+    public Product(StockName stockName, Integer unitNo, BigDecimal pricePerUnit, Wallet wallet)
     {
         this.stockName = stockName;
         this.unitNo = unitNo;
         this.pricePerUnit = pricePerUnit;
+        this.wallet = wallet;
     }
 
     public Long getId()
@@ -66,5 +68,15 @@ public class Product implements Serializable
     public void setUnitNo(Integer unitNo)
     {
         this.unitNo = unitNo;
+    }
+
+    public Wallet getWallet()
+    {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet)
+    {
+        this.wallet = wallet;
     }
 }

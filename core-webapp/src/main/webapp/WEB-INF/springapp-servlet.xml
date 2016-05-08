@@ -12,7 +12,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <context:component-scan base-package="com.red.webapp.controlers" />
+    <context:component-scan base-package="com.red.webapp.controlers, com.red.webapp.api.product" />
 
     <mvc:annotation-driven />
 
