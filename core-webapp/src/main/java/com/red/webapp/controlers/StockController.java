@@ -1,5 +1,7 @@
 package com.red.webapp.controlers;
 
+import com.red.persistence.model.StockData;
+import com.red.persistence.service.StockDataService;
 import com.red.webapp.api.stock.StockCollapse;
 import com.red.webapp.api.stock.StockListProvider;
 import com.red.webapp.api.stock.StockQuotaProvider;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -22,9 +25,11 @@ import java.util.Map;
 public class StockController
 {
     @Autowired
-    StockQuotaProvider stockQuotaProvider;
+    private StockQuotaProvider stockQuotaProvider;
     @Autowired
-    StockListProvider stockListProvider;
+    private StockListProvider stockListProvider;
+    @Autowired
+    private StockDataService stockDataService;
 
     @RequestMapping(value="/data/stock", method = RequestMethod.GET)
     public String entryStockPage(Model model)
@@ -38,6 +43,8 @@ public class StockController
     @RequestMapping(value="/data/stock/{stock}", method=RequestMethod.GET)
     public @ResponseBody String getStockQuota( @PathVariable("stock") String stock, HttpServletRequest request)
     {
+        StockData stockData = stockDataService.loadStockNameByCode(stock);
+
         JSONObject data = new JSONObject(stockQuotaProvider.getLatestQuota(stock));
         JSONObject dataset = data.getJSONObject("dataset");
         JSONArray quotes = dataset.getJSONArray("data");
@@ -48,6 +55,13 @@ public class StockController
         data.put("change", stockQuotaProvider.getPercentChange(stock));
         request.getSession().setAttribute("productCode", stock);
         request.getSession().setAttribute("pricePerUnit", price);
+
+        if(stockData != null)
+        {
+            stockData.setLastPrice(price);
+            stockData.setPriceDate(new Date(System.currentTimeMillis()));
+            stockDataService.saveStockName(stockData);
+        }
 
         return data.toString();
     }

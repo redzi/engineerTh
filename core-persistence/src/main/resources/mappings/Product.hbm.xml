@@ -10,11 +10,9 @@
         </id>
         <property name="pricePerUnit" column="PRICE_PER_UNIT" type="big_decimal"  not-null="true" unique="false" />
         <property name="unitNo" column="UNIT_NO" type="integer"  not-null="true" unique="false" />
-        <many-to-one name="wallet" class="com.red.persistence.model.Wallet" fetch="select">
-            <column name="WALLET_ID" not-null="true" />
-        </many-to-one>
-        <many-to-one name="stockName" class="com.red.persistence.model.StockName" fetch="select">
-            <column name="STOCK_NAME_ID" not-null="true" />
-        </many-to-one>
+        <property name="purchaseDate" column="purchase_timestamp" type="timestamp" not-null="true" unique="false" />
+        <many-to-one name="wallet" column="WALLET_ID" class="com.red.persistence.model.Wallet" fetch="join" not-null="true"/>
+        <many-to-one name="stockData" column="stock_name_id" unique="false" fetch="join"
+                     class="com.red.persistence.model.StockData" not-null="true"/>
     </class>
 </hibernate-mapping>

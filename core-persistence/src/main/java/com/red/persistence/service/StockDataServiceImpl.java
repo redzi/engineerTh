@@ -1,7 +1,7 @@
 package com.red.persistence.service;
 
 import com.red.persistence.dao.StockNameDao;
-import com.red.persistence.model.StockName;
+import com.red.persistence.model.StockData;
 
 import java.util.List;
 import java.util.Map;
@@ -10,18 +10,18 @@ import java.util.TreeMap;
 /**
  * Created by tom on 2015-09-06.
  */
-public class StockNameServiceImpl implements StockNameService
+public class StockDataServiceImpl implements StockDataService
 {
 
     private StockNameDao stockNameDao;
 
 
-    public StockName loadStockNameByCode(String code)
+    public StockData loadStockNameByCode(String code)
     {
         return stockNameDao.loadStockNameByCode(code);
     }
 
-    public List<StockName> loadAllStockNames()
+    public List<StockData> loadAllStockNames()
     {
         return stockNameDao.loadAllStockNames();
     }
@@ -30,24 +30,24 @@ public class StockNameServiceImpl implements StockNameService
     {
         Map<String, String> stockNameMap = new TreeMap<>();
 
-        for(StockName stockName : stockNameDao.loadAllStockNames())
+        for(StockData stockData : stockNameDao.loadAllStockNames())
         {
-            stockNameMap.put(stockName.getCode(), stockName.getName());
+            stockNameMap.put(stockData.getCode(), stockData.getName());
         }
         return stockNameMap;
     }
 
-    public void saveStockName(StockName stockName)
+    public void saveStockName(StockData stockData)
     {
-        stockNameDao.saveStockName(stockName);
+        stockNameDao.saveStockName(stockData);
     }
 
-    public void saveOrUpdateStockName(StockName stockName)
+    public void saveOrUpdateStockName(StockData stockData)
     {
-        stockNameDao.saveOrUpdateStockName(stockName);
+        stockNameDao.saveOrUpdateStockName(stockData);
     }
 
-    public StockName saveStockNameByData(String code, String name)
+    public StockData saveStockNameByData(String code, String name)
     {
         return stockNameDao.saveStockNameByData(code, name);
     }

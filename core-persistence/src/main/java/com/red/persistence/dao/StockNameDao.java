@@ -1,6 +1,6 @@
 package com.red.persistence.dao;
 
-import com.red.persistence.model.StockName;
+import com.red.persistence.model.StockData;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
@@ -11,15 +11,15 @@ import java.util.Map;
  */
 public interface StockNameDao
 {
-    StockName loadStockNameByCode(String code);
+    StockData loadStockNameByCode(String code);
 
-    List<StockName> loadAllStockNames();
+    List<StockData> loadAllStockNames();
 
-    void saveStockName(StockName stockName);
+    void saveStockName(StockData stockData);
 
-    void saveOrUpdateStockName(StockName stockName);
+    void saveOrUpdateStockName(StockData stockData);
 
-    StockName saveStockNameByData(String code, String name);
+    StockData saveStockNameByData(String code, String name);
 
     void saveAllStockNames(Map<String, String> stockNames);
 

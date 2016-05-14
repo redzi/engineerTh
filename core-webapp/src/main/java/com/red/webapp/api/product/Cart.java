@@ -1,6 +1,7 @@
 package com.red.webapp.api.product;
 
 import com.red.persistence.model.Product;
+import com.red.persistence.model.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class Cart
 {
     private List<Product> products;
     private String price;
+    private User user;
 
     public Cart()
     {
@@ -47,5 +49,15 @@ public class Cart
     public void setPrice(String price)
     {
         this.price = price;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 }

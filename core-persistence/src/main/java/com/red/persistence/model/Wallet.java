@@ -2,7 +2,8 @@ package com.red.persistence.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by tom on 2015-09-08.
@@ -11,15 +12,15 @@ public class Wallet implements Serializable
 {
     private Long id;
 
-    private List<Product> products;
+    private Set<Product> products  = new HashSet<>();
     private User user;
 
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     public Wallet()
     {}
 
-    public Wallet(List<Product> products, User user, BigDecimal balance)
+    public Wallet(Set<Product> products, User user, BigDecimal balance)
     {
         this.products = products;
         this.user = user;
@@ -36,12 +37,12 @@ public class Wallet implements Serializable
         this.id = id;
     }
 
-    public List<Product> getProducts()
+    public Set<Product> getProducts()
     {
         return products;
     }
 
-    public void setProducts(List<Product> products)
+    public void setProducts(Set<Product> products)
     {
         this.products = products;
     }
@@ -64,5 +65,27 @@ public class Wallet implements Serializable
     public void setBalance(BigDecimal balance)
     {
         this.balance = balance;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Wallet wallet = (Wallet) o;
+
+        if (balance != null ? !balance.equals(wallet.balance) : wallet.balance != null) return false;
+        if (products != null ? !products.equals(wallet.products) : wallet.products != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = products != null ? products.hashCode() : 0;
+        result = 31 * result + (balance != null ? balance.hashCode() : 0);
+        return result;
     }
 }

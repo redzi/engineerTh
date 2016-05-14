@@ -4,11 +4,13 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.red.persistence.model">
-    <class name="StockName" table="STOCK_NAMES">
+    <class name="com.red.persistence.model.StockData" table="STOCK_NAMES">
         <id name="id" column="STOCK_NAME_ID">
             <generator class="native"/>
         </id>
         <property name="code" column="CODE" type="string" length="50" not-null="true" unique="true" />
         <property name="name" column="NAME" type="string" length="50" not-null="true" unique="true" />
+        <property name="lastPrice" column="LAST_PRICE" type="big_decimal" not-null="false" unique="false" />
+        <property name="priceDate" column="PRICE_DATE" type="timestamp" not-null="false" unique="false" />
     </class>
 </hibernate-mapping>

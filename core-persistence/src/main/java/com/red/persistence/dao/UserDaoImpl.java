@@ -3,6 +3,7 @@ package com.red.persistence.dao;
 import com.red.persistence.model.Email;
 import com.red.persistence.model.User;
 import com.red.persistence.model.UserRole;
+import com.red.persistence.model.Wallet;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -54,6 +55,7 @@ public class UserDaoImpl implements UserDao
         User user = new User();
         Email email = new Email();
         UserRole userRole = new UserRole();
+        Wallet wallet = new Wallet();
 
         email.setAddress(emailAddress);
         email.setUser(user);
@@ -61,10 +63,13 @@ public class UserDaoImpl implements UserDao
         userRole.setRole(userRoleVal);
         userRole.setUser(user);
 
+        wallet.setUser(user);
+
         user.setEmail(email);
         user.setUserRole(userRole);
         user.setName(name);
         user.setPassword(password);
+        user.setWallet(wallet);
 
         getSession().saveOrUpdate(user);
 

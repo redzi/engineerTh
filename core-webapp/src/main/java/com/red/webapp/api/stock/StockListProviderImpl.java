@@ -1,6 +1,6 @@
 package com.red.webapp.api.stock;
 
-import com.red.persistence.service.StockNameService;
+import com.red.persistence.service.StockDataService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -17,14 +17,14 @@ public class StockListProviderImpl implements StockListProvider
     private static final String endpoint = "https://www.quandl.com/api/v2/datasets.json?query=*&source_code=WIKI";
     private static final String API_KEY = "kMprXsYZhL2iYpUtpkYS";
 
-    private StockNameService stockNameService;
+    private StockDataService stockDataService;
 
     //TODO maybe implement a cache based on guava
     AvailableStockData availableStockData = new AvailableStockData();
 
     public Map<String, String> getStockListData()
     {
-        if(stockNameService.loadAllStockNames().isEmpty())
+        if(stockDataService.loadAllStockNames().isEmpty())
         {
             try
             {
@@ -35,7 +35,7 @@ public class StockListProviderImpl implements StockListProvider
 
                     availableStockData.processData(data);
                 }
-                stockNameService.saveAllStockNames(availableStockData.getAvailableStockData());
+                stockDataService.saveAllStockNames(availableStockData.getAvailableStockData());
                 return availableStockData.getAvailableStockData();
             }
             catch (IOException ex)
@@ -45,7 +45,7 @@ public class StockListProviderImpl implements StockListProvider
                 return new HashMap<>();
             }
         }
-        return stockNameService.loadAllStockNamesInMap();
+        return stockDataService.loadAllStockNamesInMap();
     }
 
     private String getEndpoint(int page)
@@ -54,8 +54,8 @@ public class StockListProviderImpl implements StockListProvider
     }
 
     @Required
-    public void setStockNameService(StockNameService stockNameService)
+    public void setStockDataService(StockDataService stockDataService)
     {
-        this.stockNameService = stockNameService;
+        this.stockDataService = stockDataService;
     }
 }

@@ -45,9 +45,10 @@
     <section>
     <@security.authorize access="isAuthenticated()">
     <#if cartData??>
-        <div id="myTableHolder">
+        <div id="myTableHolder" class="dataHolder">
             <#assign inc = 1>
-            <table class="displayCartItems">
+            <table class="table table-striped">
+                <thead>
                 <tr>
                     <th>
                         Item no.
@@ -67,25 +68,27 @@
                     <th>
                     </th>
                 </tr>
-                <#if cartData.products??>
-                    <#list cartData.products as key>
+                </thead>
+                <tbody>
+                    <#if cartData.products??>
+                        <#list cartData.products as key>
                         <tr>
                             <td>
                             ${inc}
                             </td>
                             <td>
-                            ${key.stockName.code}
+                            ${key.stockData.code}
                             </td>
                             <td>
-                            <#assign price = key.pricePerUnit>
+                                <#assign price = key.pricePerUnit>
                             ${key.pricePerUnit}
                             </td>
                             <td>
-                            <#assign no = key.unitNo>
+                                <#assign no = key.unitNo>
                             ${key.unitNo}
                             </td>
                             <td>
-                           ${price * no}
+                            ${price * no}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-sm" role="button" id="${inc}"
@@ -93,8 +96,8 @@
                             </td>
                             <#assign inc = inc + 1>
                         </tr>
-                    </#list>
-                    <#if totalPrice??>
+                        </#list>
+                        <#if totalPrice??>
                         <tr>
                             <td>
                             </td>
@@ -111,9 +114,20 @@
                             <td>
                             </td>
                         </tr>
+                        </#if>
                     </#if>
-                </#if>
+                </tbody>
             </table>
+        </div>
+        <div class="form-group" id="buy">
+            <div>
+                <a class="btn btn-default btn-sm" role="button" onclick="buyCartContent()">Buy items</a>
+            </div>
+        </div>
+        <div class="form-group" id="getBack">
+            <div>
+                <a href="/data/stock/" class="btn btn-default btn-sm" role="button">Continue shopping</a>
+            </div>
         </div>
     <#else>
         <div id="warning" class="alert alert-warning col-sm-offset-2 col-sm-4">
@@ -201,8 +215,11 @@
 
         $.post( path, { id: element.getAttribute('id') })
                 .done(function( response ) {
-                    location.reload();
                 });
+    }
+
+    var buyCartContent = function(){
+        $.post( '/data/product/cart/buy')
     }
 
 </script>

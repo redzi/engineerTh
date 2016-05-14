@@ -13,9 +13,9 @@
         <property name="balance" column="BALANCE" type="java.math.BigDecimal" not-null="false" />
         <one-to-one name="User" class="com.red.persistence.model.User" constrained="true"/>
         <set name="products" table="PRODUCTS"
-             inverse="true" lazy="true" fetch="select">
+             inverse="false" lazy="true" fetch="join" cascade="all">
             <key>
-                <column name="PRODUCT_ID" not-null="false" />
+                <column name="WALLET_ID" not-null="false" unique="false"/>
             </key>
             <one-to-many class="com.red.persistence.model.Product" />
         </set>

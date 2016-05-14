@@ -1,6 +1,6 @@
 package com.red.persistence.dao;
 
-import com.red.persistence.model.StockName;
+import com.red.persistence.model.StockData;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,47 +21,47 @@ public class StockNameDaoImpl implements StockNameDao
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
-    public StockName loadStockNameByCode(String code)
+    public StockData loadStockNameByCode(String code)
     {
-        Criteria criteria = getSession().createCriteria(StockName.class);
+        Criteria criteria = getSession().createCriteria(StockData.class);
         criteria.add(Restrictions.eq("code", code));
         criteria.uniqueResult();
-        List<StockName> stockNames = new ArrayList<>();
-        stockNames = criteria.list();
+        List<StockData> stockDatas = new ArrayList<>();
+        stockDatas = criteria.list();
 
-        return stockNames.isEmpty() ? null : stockNames.get(0);
+        return stockDatas.isEmpty() ? null : stockDatas.get(0);
     }
 
     @Transactional
-    public StockName saveStockNameByData(String code, String name)
+    public StockData saveStockNameByData(String code, String name)
     {
-        StockName stockNameToSave = new StockName(code, name);
+        StockData stockNameToSave = new StockData(code, name);
         getSession().saveOrUpdate(stockNameToSave);
         return stockNameToSave;
     }
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
-    public List<StockName> loadAllStockNames()
+    public List<StockData> loadAllStockNames()
     {
-        Criteria criteria = getSession().createCriteria(StockName.class);
-        List<StockName> stockNames = criteria.list();
+        Criteria criteria = getSession().createCriteria(StockData.class);
+        List<StockData> stockDatas = criteria.list();
 
-        return stockNames;
+        return stockDatas;
     }
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public void saveStockName(StockName stockName)
+    public void saveStockName(StockData stockData)
     {
-        getSession().saveOrUpdate(stockName);
+        getSession().saveOrUpdate(stockData);
     }
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public void saveOrUpdateStockName(StockName stockName)
+    public void saveOrUpdateStockName(StockData stockData)
     {
-        getSession().saveOrUpdate(stockName);
+        getSession().saveOrUpdate(stockData);
     }
 
     @Transactional
@@ -77,9 +77,9 @@ public class StockNameDaoImpl implements StockNameDao
             {
                 continue;
             }
-            StockName stockName = new StockName(entry.getKey(), entry.getValue());
+            StockData stockData = new StockData(entry.getKey(), entry.getValue());
 
-            session.save(stockName);
+            session.save(stockData);
             if ( i % 20 == 0 )
             {
                 session.flush();

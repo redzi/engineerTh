@@ -113,6 +113,11 @@
         <div id="buyHolder">
         </div>
     </@security.authorize>
+        <div class="form-group" id="getBack">
+            <div>
+                <a href="/data/stock/" class="btn btn-default btn-sm" role="button">Get back</a>
+            </div>
+        </div>
 
     </section>
 
@@ -128,6 +133,7 @@
     $( document ).ready(function() {
         hideMyTable($('#myTableHolder'));
         hideMyTable( $('#stockDataQuotesInfo'))
+        hideMyTable( $('#getBack'))
         $('#myTable').dataTable();
 
         var base = 'stock';
@@ -392,10 +398,14 @@
 
     var buildBuyThisItem = function(productName){
         $('<a>',{
-            text: 'Buy this product',
+            text: 'Continue',
             href: '/data/product/'+productName,
             class: 'btn btn-default btn-sm',
+            id: 'continue'
         }).appendTo('#buyHolder');
+
+        pos   = $('#continue').offset();
+        showMyTable($('#getBack'));
     }
 
     google.load('visualization', '1', {packages: ['corechart']});

@@ -15,7 +15,7 @@
         <mapping resource="mappings/User.hbm.xml"/>
         <mapping resource="mappings/UserRole.hbm.xml"/>
         <mapping resource="mappings/Test.hbm.xml"/>
-        <mapping resource="mappings/StockName.hbm.xml" />
+        <mapping resource="mappings/StockData.hbm.xml" />
         <mapping resource="mappings/Wallet.hbm.xml" />
         <mapping resource="mappings/Product.hbm.xml" />
     </session-factory>

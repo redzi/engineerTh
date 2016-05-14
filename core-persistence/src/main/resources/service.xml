@@ -29,6 +29,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="productDao" class="com.red.persistence.dao.ProductDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="testDao" class="com.red.persistence.dao.TestDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -42,7 +46,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="stockNameService" class="com.red.persistence.service.StockNameServiceImpl">
+    <bean id="stockNameService" class="com.red.persistence.service.StockDataServiceImpl">
         <property name="stockNameDao" ref="stockNameDao"/>
     </bean>
 

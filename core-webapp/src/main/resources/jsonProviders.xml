@@ -35,7 +35,7 @@
     <bean id="stockQuotaProvider" class="com.red.webapp.api.stock.StockQuotaProviderImpl"/>
 
     <bean id="stockListProvider" class="com.red.webapp.api.stock.StockListProviderImpl">
-        <property name="stockNameService" ref="stockNameService"/>
+        <property name="stockDataService" ref="stockNameService"/>
     </bean>
 
     <bean id="dowProvider" class="com.red.webapp.api.stock.DowListProvider">

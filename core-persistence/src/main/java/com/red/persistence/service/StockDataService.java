@@ -1,7 +1,7 @@
 package com.red.persistence.service;
 
 import com.red.persistence.dao.StockNameDao;
-import com.red.persistence.model.StockName;
+import com.red.persistence.model.StockData;
 
 import java.util.List;
 import java.util.Map;
@@ -9,19 +9,19 @@ import java.util.Map;
 /**
  * Created by tom on 2015-09-06.
  */
-public interface StockNameService
+public interface StockDataService
 {
-    StockName loadStockNameByCode(String code);
+    StockData loadStockNameByCode(String code);
 
-    List<StockName> loadAllStockNames();
+    List<StockData> loadAllStockNames();
 
     Map<String, String> loadAllStockNamesInMap();
 
-    void saveStockName(StockName stockName);
+    void saveStockName(StockData stockData);
 
-    void saveOrUpdateStockName(StockName stockName);
+    void saveOrUpdateStockName(StockData stockData);
 
-    StockName saveStockNameByData(String code, String name);
+    StockData saveStockNameByData(String code, String name);
 
     void saveAllStockNames(Map<String, String> stockNames);
 

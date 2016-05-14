@@ -71,6 +71,13 @@
                 <#--</div>-->
                 <div class="clearfix"></div>
                 <div class="form-group">
+                    <label class="control-label col-sm-2" for="balance">Your balance:</label>
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control" required="required" readonly="readonly" id="balance"
+                               name="balance" value="${balance}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-sm-2" for="stockName">Code:</label>
                     <div class="col-sm-4" >
                         <input type="text" class="form-control" required="required" id="stockName" name="stockName"
@@ -100,7 +107,7 @@
                     </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-4">
-                        <button type="submit" class="btn btn-default">Buy</button>
+                        <button type="submit" class="btn btn-default">Add to cart</button>
                         <button type="reset" class="btn btn-default">Reset</button>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </div>
